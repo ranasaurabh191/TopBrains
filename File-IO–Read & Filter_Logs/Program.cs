@@ -5,13 +5,12 @@ class Program
     static void Main()
     {
         string inputFile = "log.txt";    
-        string outputFile = "error.txt";  
 
     
         string[] lines = File.ReadAllLines(inputFile);
 
         // error.txt file create / overwrite karo
-        using (StreamWriter writer = new StreamWriter(outputFile))
+        using (StreamWriter writer = new StreamWriter("error.txt"))
         {
             // Har line ko check karo
             foreach (string line in lines)
