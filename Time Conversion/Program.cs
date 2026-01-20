@@ -17,6 +17,3 @@ public class Program
     }
 }
 
-git add .
-git commit -m "q12"
-git push
