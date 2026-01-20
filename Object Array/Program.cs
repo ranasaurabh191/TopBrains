@@ -23,7 +23,7 @@ public class Program
 
         for (int i = 0; i < n; i++)
         {
-            values[i] = Console.ReadLine(); // mixed types simulated as strings
+            values[i] = Console.ReadLine(); 
         }
         int result = SumOnlyIntegers(values);
         Console.WriteLine(result);
