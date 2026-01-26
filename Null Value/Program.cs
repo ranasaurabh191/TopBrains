@@ -1,6 +1,6 @@
 ﻿class Program
 {
-    public static double? AverageNonNull(double?[] values)
+    public static double? AverageNonNull(double?[] values) // ? makes nullable
     {
         if (values == null || values.Length == 0)
             return null;
@@ -10,7 +10,7 @@
 
         foreach (var v in values)
         {
-            if (v.HasValue)
+            if (v.HasValue) // checks whether v has null value or not
             {
                 sum += v.Value;
                 count++;
