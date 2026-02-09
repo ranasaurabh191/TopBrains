@@ -10,6 +10,7 @@ class PaymentCalculator
 
         Console.WriteLine($"Base Amount (After Discount): {baseAmount}");
         Console.WriteLine($"Tax: {tax}");
+        Console.WriteLine($"Discount: {discount}");
         Console.WriteLine($"Final Amount: {finalAmount}");
     }
 
