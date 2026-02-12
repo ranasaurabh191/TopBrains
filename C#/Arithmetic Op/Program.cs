@@ -16,22 +16,17 @@ public class ExpressionEvaluator
 
         switch (op)
         {
-            case "+":
-                return (a + b).ToString();
+            case "+": return (a + b).ToString();
 
-            case "-":
-                return (a - b).ToString();
+            case "-": return (a - b).ToString();
 
-            case "*":
-                return (a * b).ToString();
+            case "*": return (a * b).ToString();
 
             case "/":
-                if (b == 0)
-                    return "Error:DivideByZero";
+                if (b == 0) return "Error:DivideByZero";
                 return (a / b).ToString();
 
-            default:
-                return "Error:UnknownOperator";
+            default: return "Error:UnknownOperator";
         }
     }
 }
@@ -55,3 +50,4 @@ public class Program
         }
     }
 }
+
