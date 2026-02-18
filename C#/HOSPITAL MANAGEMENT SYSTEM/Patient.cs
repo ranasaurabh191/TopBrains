@@ -1,0 +1,1 @@
+class Patient : Person { public string Disease; }
