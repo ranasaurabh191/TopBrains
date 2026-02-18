@@ -20,10 +20,8 @@ class Program
 
         List<Order> orders = new() { order };
 
-        Console.WriteLine("Total Revenue: " +
-            orders.Sum(o => o.Items.Sum(i => i.TotalPrice())));
+        Console.WriteLine("Total Revenue: " + orders.Sum(o => o.Items.Sum(i => i.TotalPrice())));
 
-        Console.WriteLine("Orders last 7 days: " +
-            orders.Count(o => o.OrderDate >= DateTime.Now.AddDays(-7)));
+        Console.WriteLine("Orders last 7 days: " + orders.Count(o => o.OrderDate >= DateTime.Now.AddDays(-7)));
     }
 }
