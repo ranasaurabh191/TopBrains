@@ -2,7 +2,6 @@
 using System.Linq;
 using FlexibleInventorySystem.Services;
 using FlexibleInventorySystem.Models;
-using FlexibleInventorySystem.Utilities;
 using FlexibleInventorySystem.Exceptions;
 
 namespace FlexibleInventorySystem
@@ -13,58 +12,46 @@ namespace FlexibleInventorySystem
 
         static void Main(string[] args)
         {
-            
             SampleData.Load(_inventory);
 
             while (true)
             {
                 DisplayMenu();
-                Console.Write("Choose an option: ");
-                string choice = Console.ReadLine();
+                Console.Write("Choose option: ");
+                var choice = Console.ReadLine();
 
-                try
+                switch (choice)
                 {
-                    switch (choice)
-                    {
-                        case "1":
-                            AddProductMenu();
-                            break;
-                        case "2":
-                            RemoveProductMenu();
-                            break;
-                        case "3":
-                            UpdateQuantityMenu();
-                            break;
-                        case "4":
-                            FindProductMenu();
-                            break;
-                        case "5":
-                            ViewAllProducts();
-                            break;
-                        case "6":
-                            GenerateReportsMenu();
-                            break;
-                        case "7":
-                            CheckLowStockMenu();
-                            break;
-                        case "8":
-                            Console.WriteLine("Exiting application. Goodbye!");
-                            return;
-                        default:
-                            Console.WriteLine("Invalid option. Try again.");
-                            break;
-                    }
-                }
-                catch (InventoryException ex)
-                {
-                    Console.WriteLine($"Error: {ex.Message}");
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine($"Unexpected error: {ex.Message}");
+                    case "1":
+                        AddProductMenu();
+                        break;
+                    case "2":
+                        RemoveProductMenu();
+                        break;
+                    case "3":
+                        UpdateQuantityMenu();
+                        break;
+                    case "4":
+                        FindProductMenu();
+                        break;
+                    case "5":
+                        ViewAllProducts();
+                        break;
+                    case "6":
+                        GenerateReportsMenu();
+                        break;
+                    case "7":
+                        CheckLowStockMenu();
+                        break;
+                    case "8":
+                        Console.WriteLine("Bye");
+                        return;
+                    default:
+                        Console.WriteLine("Invalid choice");
+                        break;
                 }
 
-                Console.WriteLine("\nPress Enter to continue...");
+                Console.WriteLine("\nPress Enter...");
                 Console.ReadLine();
             }
         }
@@ -86,38 +73,68 @@ namespace FlexibleInventorySystem
             Console.WriteLine("=================================");
         }
 
+        // ---------- SAFE INPUT HELPERS ----------
+        static string ReadRequiredString(string label)
+        {
+            while (true)
+            {
+                Console.Write(label);
+                var input = Console.ReadLine();
+                if (!string.IsNullOrWhiteSpace(input))
+                    return input;
+                Console.WriteLine("Input cannot be empty.");
+            }
+        }
+
+        static int ReadInt(string label)
+        {
+            while (true)
+            {
+                Console.Write(label);
+                if (int.TryParse(Console.ReadLine(), out int value))
+                    return value;
+                Console.WriteLine("Enter valid integer.");
+            }
+        }
+
+        static decimal ReadDecimal(string label)
+        {
+            while (true)
+            {
+                Console.Write(label);
+                if (decimal.TryParse(Console.ReadLine(), out decimal value))
+                    return value;
+                Console.WriteLine("Enter valid decimal.");
+            }
+        }
+
+        static DateTime ReadDate(string label)
+        {
+            while (true)
+            {
+                Console.Write(label);
+                if (DateTime.TryParse(Console.ReadLine(), out DateTime date))
+                    return date;
+                Console.WriteLine("Enter valid date.");
+            }
+        }
+
+        // ---------- MENUS ----------
         static void AddProductMenu()
         {
-            Console.WriteLine("\nSelect Product Type:");
-            Console.WriteLine("1. Electronic");
-            Console.WriteLine("2. Grocery");
-            Console.WriteLine("3. Clothing");
-            Console.Write("Choice: ");
-            string typeChoice = Console.ReadLine();
+            Console.WriteLine("\n1. Electronic  2. Grocery  3. Clothing");
+            var type = ReadRequiredString("Select type: ");
 
-            Console.Write("ID: ");
-            string id = Console.ReadLine();
+            string id = ReadRequiredString("ID: ");
+            string name = ReadRequiredString("Name: ");
+            decimal price = ReadDecimal("Price: ");
+            int qty = ReadInt("Quantity: ");
 
-            Console.Write("Name: ");
-            string name = Console.ReadLine();
+            Product product;
 
-            Console.Write("Price: ");
-            decimal price = decimal.Parse(Console.ReadLine());
-
-            Console.Write("Quantity: ");
-            int qty = int.Parse(Console.ReadLine());
-
-            Product product = null;
-
-            switch (typeChoice)
+            switch (type)
             {
                 case "1":
-                    Console.Write("Brand: ");
-                    string brand = Console.ReadLine();
-
-                    Console.Write("Warranty (months): ");
-                    int warranty = int.Parse(Console.ReadLine());
-
                     product = new ElectronicProduct
                     {
                         Id = id,
@@ -125,15 +142,12 @@ namespace FlexibleInventorySystem
                         Price = price,
                         Quantity = qty,
                         Category = "Electronics",
-                        Brand = brand,
-                        WarrantyMonths = warranty
+                        Brand = ReadRequiredString("Brand: "),
+                        WarrantyMonths = ReadInt("Warranty months: ")
                     };
                     break;
 
                 case "2":
-                    Console.Write("Expiry Date (yyyy-mm-dd): ");
-                    DateTime expiry = DateTime.Parse(Console.ReadLine());
-
                     product = new GroceryProduct
                     {
                         Id = id,
@@ -141,18 +155,12 @@ namespace FlexibleInventorySystem
                         Price = price,
                         Quantity = qty,
                         Category = "Groceries",
-                        ExpiryDate = expiry,
+                        ExpiryDate = ReadDate("Expiry date: "),
                         IsPerishable = true
                     };
                     break;
 
                 case "3":
-                    Console.Write("Size (XS/S/M/L/XL/XXL): ");
-                    string size = Console.ReadLine();
-
-                    Console.Write("Color: ");
-                    string color = Console.ReadLine();
-
                     product = new ClothingProduct
                     {
                         Id = id,
@@ -160,57 +168,50 @@ namespace FlexibleInventorySystem
                         Price = price,
                         Quantity = qty,
                         Category = "Clothing",
-                        Size = size,
-                        Color = color
+                        Size = ReadRequiredString("Size: "),
+                        Color = ReadRequiredString("Color: ")
                     };
                     break;
 
                 default:
-                    Console.WriteLine("Invalid product type.");
+                    Console.WriteLine("Invalid product type");
                     return;
             }
 
             _inventory.AddProduct(product);
-            Console.WriteLine("Product added successfully.");
+            Console.WriteLine("Product added successfully ");
         }
 
         static void RemoveProductMenu()
         {
-            Console.Write("Enter Product ID to remove: ");
-            string id = Console.ReadLine();
-
-            bool removed = _inventory.RemoveProduct(id);
-
-            Console.WriteLine(removed
-                ? "Product removed successfully."
-                : "Product not found.");
+            string id = ReadRequiredString("Enter Product ID: ");
+            Console.WriteLine(
+                _inventory.RemoveProduct(id)
+                ? "Product removed"
+                : "Product not found"
+            );
         }
 
         static void UpdateQuantityMenu()
         {
-            Console.Write("Enter Product ID: ");
-            string id = Console.ReadLine();
+            string id = ReadRequiredString("Product ID: ");
+            int qty = ReadInt("New Quantity: ");
 
-            Console.Write("Enter New Quantity: ");
-            int qty = int.Parse(Console.ReadLine());
-
-            bool updated = _inventory.UpdateQuantity(id, qty);
-
-            Console.WriteLine(updated
-                ? "Quantity updated."
-                : "Update failed.");
+            Console.WriteLine(
+                _inventory.UpdateQuantity(id, qty)
+                ? "Quantity updated"
+                : "Update failed"
+            );
         }
 
         static void FindProductMenu()
         {
-            Console.Write("Enter Product ID: ");
-            string id = Console.ReadLine();
-
+            string id = ReadRequiredString("Product ID: ");
             var product = _inventory.FindProduct(id);
 
             if (product == null)
             {
-                Console.WriteLine("Product not found.");
+                Console.WriteLine("Product not found");
                 return;
             }
 
@@ -220,23 +221,13 @@ namespace FlexibleInventorySystem
 
         static void ViewAllProducts()
         {
-            Console.WriteLine("\nALL PRODUCTS:");
-            Console.WriteLine("---------------------------------");
-
-            var report = _inventory.GenerateInventoryReport();
-            Console.WriteLine(report);
+            Console.WriteLine(_inventory.GenerateInventoryReport());
         }
 
         static void GenerateReportsMenu()
         {
-            Console.WriteLine("\nSelect Report Type:");
-            Console.WriteLine("1. Inventory Report");
-            Console.WriteLine("2. Category Summary");
-            Console.WriteLine("3. Value Report");
-            Console.WriteLine("4. Expiry Report");
-
-            Console.Write("Choice: ");
-            string choice = Console.ReadLine();
+            Console.WriteLine("1.Inventory  2.Category  3.Value  4.Expiry");
+            var choice = ReadRequiredString("Choice: ");
 
             switch (choice)
             {
@@ -250,31 +241,24 @@ namespace FlexibleInventorySystem
                     Console.WriteLine(_inventory.GenerateValueReport());
                     break;
                 case "4":
-                    Console.Write("Days until expiry: ");
-                    int days = int.Parse(Console.ReadLine());
+                    int days = ReadInt("Days until expiry: ");
                     Console.WriteLine(_inventory.GenerateExpiryReport(days));
-                    break;
-                default:
-                    Console.WriteLine("Invalid report option.");
                     break;
             }
         }
 
         static void CheckLowStockMenu()
         {
-            Console.Write("Enter stock threshold: ");
-            int threshold = int.Parse(Console.ReadLine());
+            int threshold = ReadInt("Stock threshold: ");
+            var list = _inventory.GetLowStockProducts(threshold);
 
-            var lowStock = _inventory.GetLowStockProducts(threshold);
-
-            if (!lowStock.Any())
+            if (!list.Any())
             {
-                Console.WriteLine("No low-stock products.");
+                Console.WriteLine("No low stock products");
                 return;
             }
 
-            Console.WriteLine("LOW STOCK PRODUCTS:");
-            foreach (var p in lowStock)
+            foreach (var p in list)
                 Console.WriteLine(p);
         }
     }
