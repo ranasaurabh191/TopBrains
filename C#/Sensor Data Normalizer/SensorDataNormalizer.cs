@@ -12,12 +12,7 @@ public class SensorDataNormalizer : IStringParser, INumberRounder
         if (cleaned.Equals("null", StringComparison.OrdinalIgnoreCase) ||   cleaned.Equals("NaN", StringComparison.OrdinalIgnoreCase))
             return false;
 
-        return float.TryParse(
-            cleaned,
-            NumberStyles.Float,
-            CultureInfo.InvariantCulture,
-            out value
-        );
+        return float.TryParse(cleaned, NumberStyles.Float, CultureInfo.InvariantCulture, out value);
     }
 
     public float Round(float value, int decimals)
