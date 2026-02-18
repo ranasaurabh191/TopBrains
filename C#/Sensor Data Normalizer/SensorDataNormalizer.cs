@@ -5,13 +5,11 @@ public class SensorDataNormalizer : IStringParser, INumberRounder
     {
         value = 0f;
 
-        if (string.IsNullOrWhiteSpace(input))
-            return false;
+        if (string.IsNullOrWhiteSpace(input))  return false;
 
         string cleaned = input.Trim();
 
-        if (cleaned.Equals("null", StringComparison.OrdinalIgnoreCase) ||
-            cleaned.Equals("NaN", StringComparison.OrdinalIgnoreCase))
+        if (cleaned.Equals("null", StringComparison.OrdinalIgnoreCase) ||   cleaned.Equals("NaN", StringComparison.OrdinalIgnoreCase))
             return false;
 
         return float.TryParse(
@@ -30,8 +28,7 @@ public class SensorDataNormalizer : IStringParser, INumberRounder
 
     public float[]? Normalize(string input)
     {
-        if (string.IsNullOrWhiteSpace(input))
-            return null;
+        if (string.IsNullOrWhiteSpace(input)) return null;
 
         List<float> result = new();
 
