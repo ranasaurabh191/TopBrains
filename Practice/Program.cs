@@ -1,24 +1,12 @@
 ﻿
 
-
-
-
-
-
-
-
-
-
-
-using System.Data;
+// using System.Data;
 
 // string s = "hello world ";
 
 // var res =  s.GroupBy(c=>c).Select(v=> $"{v.Key}: {v.Count()}");
 
 // Console.WriteLine(string.Join(", ",res));
-
-
 
 // Console.WriteLine(s.Split(' ').OrderBy(c=>c.Length).Last());
 
@@ -31,14 +19,12 @@ using System.Data;
 
 // Console.WriteLine(string.Join(" ", s.Split(' ').Reverse()));
 
+// List<int> nums = new List<int>{ 10, 15, 20, 25, 30 };
+
+// var res = nums.Where(n => n % 2 == 0);
 
 
+// Console.WriteLine(string.Join(' ',res));
 
-List<int> nums = new List<int>{ 10, 15, 20, 25, 30 };
+// Console.WriteLine(nums);
 
-var res = nums.Where(n => n % 2 == 0);
-
-
-Console.WriteLine(string.Join(' ',res));
-
-Console.WriteLine(nums);
