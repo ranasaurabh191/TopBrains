@@ -1,0 +1,12 @@
+﻿body {
+    background-color: aqua;
+    border: 1px solid black;
+    padding: 10px;
+}
+.myclass {
+    color: red;
+    font-size: 20px;
+}
+#myId {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}

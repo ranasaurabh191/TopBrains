@@ -1,4 +1,4 @@
-namespace WebApplication1
+namespace WEBCSS
 {
     public class Program
     {
@@ -7,7 +7,7 @@ namespace WebApplication1
             var builder = WebApplication.CreateBuilder(args);
             var app = builder.Build();
 
-            app.MapGet("/", () => "Hello");
+            app.MapGet("/", () => "Hello World!");
             app.UseDefaultFiles();
             app.UseStaticFiles();
             app.Run();

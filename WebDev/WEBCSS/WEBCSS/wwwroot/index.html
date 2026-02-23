@@ -1,0 +1,48 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        p {
+            color: red;
+            font-size: 20px;
+        }
+
+        body {
+            background-color: black;
+        }
+        /* ✅ Attribute Selector */
+        input[type="text"] {
+            border: 2px solid green;
+            padding: 5px;
+        }
+        /*
+            From lowest to highest priority:
+
+            1)Element Selector
+
+            2)Class Selector
+
+            3)Attribute Selector
+
+            4)ID Selector
+
+            5)Inline CSS (Highest)
+            */
+    </style>
+    <link rel=" stylesheet" href="style.css" />
+    <meta charset="utf-8" />
+    <title>Hello World</title>
+</head>
+<body>
+
+    <h1 style="color:red;font-size: 18px;">Red coloured heading with 18px.</h1>
+    <p style="background-color: black">This is blue colour paragraph.</p>
+    <button style=" background-color: orange;color:white;padding: 10px;">Click me </button>
+    <h2 class=" myclass">This is class selector used</h2>
+    <h3 id="myId">Welcome</h3>
+    <input type="text" placeholder="This input is green border" />
+
+</body>
+</html>
+
+
