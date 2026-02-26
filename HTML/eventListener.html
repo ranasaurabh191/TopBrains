@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Js event dom</title>
+    <style>
+        body { font-family: Arial; padding: 20px; }
+        #box {
+            width: 200px;
+            height: 100px;
+            background-color: lightblue;
+            text-align: center;
+            line-height: 100px;
+            margin-top: 20px;
+        }
+        #parent {
+            padding: 20px;
+            background-color: lightgray;
+        }
+        #child {
+            padding: 20px;
+            background-color: lightcoral;
+        }
+    </style>
+</head>
+
+<body>
+    <h3>1 . click event inline </h3>
+    <button onclick="console.log('button clicked')">Click me</button>
+
+    <h3>2 . click event External js </h3>
+    <button id="mybtn">Click me</button>
+    <br>
+    <br>
+
+    <h3>3. right click event</h3>
+    <button oncontextmenu="console.log('right click detected');return false;">Right click on me</button>
+    <br>
+    <br>
+    <h3>4. Mouse Event</h3>
+    <button 
+        onmouseover="console.log('mouse over button!')" 
+        onmouseout="console.log('mouse left button!')">
+        Hover overme
+    </button>
+
+    <br>
+    <br>
+    <h3> 5. keyboard events</h3>
+    <input type="text" placeholder="type something" onkeydown="console.log('key down event!')">
+    <br>
+    <br>
+
+    <textarea
+        placeholder="Type inside textarea"
+        onkeydown="console.log('key pressed in text area!')">
+    </textarea>
+
+    <h3>6 form Event</h3>
+    <form id="myForm">
+        <input type="text" placeholder="Enter your name" required>
+        <button type="submit" id="mybtn">Submit</button>
+    </form>
+
+<script>
+    const btn = document.getElementById('mybtn');
+    btn.addEventListener('click', function () {
+        alert('welcome to web development!');
+    });
+
+    //form submit event
+    document.getElementById('myForm').onsubmit=function(event){
+        event.preventDefault(); // Prevent form submission
+        console.log('Form submitted!');
+    };
+
+</script>
+
+
+<h2>========== addEventListener Demo =========</h2>
+
+<!-- 1️ Click Event -->
+<button id="clickBtn">Click Me</button>
+
+<!-- 2️ Double Click Event -->
+<button id="dblClickBtn">Double Click Me</button>
+
+<!-- 3️ Mouse Events -->
+<div id="box">Hover Over Me</div>
+
+<!-- 4️ Keyboard Event -->
+<br><br>
+<input type="text" id="keyInput" placeholder="Type Something">
+
+<!-- 5️ Input Event -->
+<br><br>
+<input type="text" id="liveInput" placeholder="Live Typing">
+
+<p id="liveOutput"></p>
+
+<!-- 6️ Form Submit -->
+<form id="myForm">
+    <input type="text" placeholder="Enter Name" required>
+    <button type="submit">Submit</button>
+</form>
+
+<!-- 7️ Event Bubbling -->
+<h3>Event Bubbling Example</h3>
+<div id="parent">
+    Parent Div
+    <div id="child">
+        Child Div
+    </div>
+</div>
+
+</body>
+</html>
