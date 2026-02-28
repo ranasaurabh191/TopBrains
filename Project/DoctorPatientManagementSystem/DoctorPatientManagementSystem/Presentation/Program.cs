@@ -2,6 +2,8 @@
 using DoctorPatientManagementSystem.DAL;
 using DoctorPatientManagementSystem.Interfaces;
 
+using System;
+
 class Program
 {
     static void Main()
@@ -14,7 +16,18 @@ class Program
 
         while (true)
         {
-            Console.WriteLine("\n1.Add Doctor\n2.List Doctors\n3.Add Patient\n4.List Patients\n5.Exit");
+            Console.WriteLine("\n===== Doctor Patient Management =====");
+            Console.WriteLine("1. Add Doctor");
+            Console.WriteLine("2. List Doctors");
+            Console.WriteLine("3. Add Patient");
+            Console.WriteLine("4. Delete Doctor");
+            Console.WriteLine("5. Edit Patient");
+            Console.WriteLine("6. Delete Patient");
+            Console.WriteLine("7. List Patients");
+            Console.WriteLine("8. Find Patient");
+            Console.WriteLine("9. Exit");
+
+            Console.Write("Choice: ");
             int choice = int.Parse(Console.ReadLine()??"");
 
             switch (choice)
@@ -24,21 +37,43 @@ class Program
                     break;
 
                 case 2:
-                    doctorBLL.ShowDoctors();
+                    doctorBLL.ListDoctors();
                     break;
 
                 case 3:
-                    Console.Write("Doctor Id: ");
+                    Console.Write("Doctor ID: ");
                     int did = int.Parse(Console.ReadLine()??"");
                     patientBLL.AddPatient(did);
                     break;
 
                 case 4:
-                    patientBLL.ShowPatients();
+                    doctorBLL.DeleteDoctor();
                     break;
 
                 case 5:
+                    patientBLL.EditPatient();
+                    break;
+
+                case 6:
+                    patientBLL.DeletePatient();
+                    break;
+
+                case 7:
+                    patientBLL.ListPatients();
+                    break;
+
+                case 8:
+                    Console.Write("Patient Name: ");
+                    string name = Console.ReadLine()??"";
+                    patientBLL.FindPatient(name);
+                    break;
+
+                case 9:
                     return;
+
+                default:
+                    Console.WriteLine("Invalid choice");
+                    break;
             }
         }
     }

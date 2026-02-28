@@ -12,7 +12,6 @@ namespace DoctorPatientManagementSystem.Interfaces
         void ListPatients();
         void FindPatient(string patientName);
 
-        // DB operations
         void AddPatientToDB(int doctorId);
         void EditPatientInDB();
         void DeletePatientFromDB();

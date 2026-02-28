@@ -7,26 +7,41 @@ namespace DoctorPatientManagementSystem.BLL
 {
     public class PatientsBLL
     {
-        private readonly IPatientManager _manager;
+        private readonly IPatientManager _patientManager;
 
-        public PatientsBLL(IPatientManager manager)
+        public PatientsBLL(IPatientManager patientManager)
         {
-            _manager = manager;
+            _patientManager = patientManager;
         }
 
         public void AddPatient(int doctorId)
         {
             if (doctorId <= 0)
             {
-                Console.WriteLine("Invalid Doctor Id");
+                Console.WriteLine("Invalid Doctor ID");
                 return;
             }
-            _manager.AddPatient(doctorId);
+            _patientManager.AddPatient(doctorId);
         }
 
-        public void ShowPatients()
+        public void EditPatient()
         {
-            _manager.ListPatients();
+            _patientManager.EditPatient();
+        }
+
+        public void DeletePatient()
+        {
+            _patientManager.DeletePatient();
+        }
+
+        public void ListPatients()
+        {
+            _patientManager.ListPatients();
+        }
+
+        public void FindPatient(string name)
+        {
+            _patientManager.FindPatient(name);
         }
     }
 }

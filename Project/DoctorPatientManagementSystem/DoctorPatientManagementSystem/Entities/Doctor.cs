@@ -10,8 +10,6 @@ namespace DoctorPatientManagementSystem.Entities
         public string Name { get; set; } = "";
         public string Specialization { get; set; } = "";
         public decimal ConsultationFee { get; set; }
-
-        // Aggregate relationship
         public List<Patient> Patients { get; set; } = new List<Patient>();
     }
 }

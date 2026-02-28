@@ -19,7 +19,7 @@ namespace DoctorPatientManagementSystem.DAL
             Console.Write("Specialization: ");
             string spec = Console.ReadLine()??"";
 
-            Console.Write("Fee: ");
+            Console.Write("Consultation Fee: ");
             decimal fee = decimal.Parse(Console.ReadLine()??"");
 
             using SqlConnection con = new SqlConnection(connStr);
@@ -33,7 +33,22 @@ namespace DoctorPatientManagementSystem.DAL
             cmd.ExecuteNonQuery();
             Console.WriteLine("Doctor added successfully.");
         }
+        public void DeleteDoctorFromDB()
+        {
+            Console.Write("Enter Doctor ID to Delete: ");
+            int id = int.Parse(Console.ReadLine() ?? "");
 
+            using SqlConnection con = new SqlConnection(connStr);
+            string query = "DELETE FROM Doctors WHERE DoctorId=@id";
+
+            SqlCommand cmd = new SqlCommand(query, con);
+            cmd.Parameters.AddWithValue("@id", id);
+
+            con.Open();
+            int rows = cmd.ExecuteNonQuery();
+
+            Console.WriteLine(rows > 0 ? "Doctor deleted." : "Doctor not found.");
+        }
         public void ListDoctorsFromDB()
         {
             using SqlConnection con = new SqlConnection(connStr);
@@ -50,5 +65,6 @@ namespace DoctorPatientManagementSystem.DAL
         // Console wrappers
         public void AddDoctor() => AddDoctorToDB();
         public void ListDoctors() => ListDoctorsFromDB();
+        public void DeleteDoctor() => DeleteDoctorFromDB();
     }
 }

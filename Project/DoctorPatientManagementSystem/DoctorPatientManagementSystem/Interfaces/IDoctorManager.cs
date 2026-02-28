@@ -8,9 +8,10 @@ namespace DoctorPatientManagementSystem.Interfaces
     {
         void AddDoctor();
         void ListDoctors();
-
+        void DeleteDoctor();
         // DB operations
         void AddDoctorToDB();
         void ListDoctorsFromDB();
+        void DeleteDoctorFromDB();
     }
 }
