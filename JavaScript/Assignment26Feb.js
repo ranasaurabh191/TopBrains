@@ -50,11 +50,11 @@ console.log(`Employee Name: ${name}`);
 console.log(`Salary: ${salary}`);
 
 // Scenario 5: Spread Operator
-let employees = [
-    { id: 1, name: "Ravi", salary: 40000 },
-    { id: 2, name: "Priya", salary: 55000 },
-    { id: 3, name: "Amit", salary: 30000 }
-];
+// let employees = [
+//     { id: 1, name: "Ravi", salary: 40000 },
+//     { id: 2, name: "Priya", salary: 55000 },
+//     { id: 3, name: "Amit", salary: 30000 }
+// ];
 const newEmployees = [...employees];
 
 const updatedEmployees = [

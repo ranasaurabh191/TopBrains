@@ -1,8 +1,103 @@
-*{
-    color: red;
-    border : 2px solid black;
-    margin: 20px;
-    padding : 20px;
-    
+body{
+    text-align: center;
+}
+
+div {
+    height : 100px;
+    width: 100px;
+    display: inline-block;
+    border: 2px solid black;
+    /* transition-property: all;
+    transition-duration: 2s;
+    transition-timing-function:linear;
+    transition-delay: 1ms;*/
+    /* transition: all 2s ease-in-out 0.2s; */
+    /* animation-name: myAnimation; */
+    /* animation-duration: 0.25s; */
+    /* animation-timing-function: ease-in; */
+    /* animation-delay: s; */
+    /* animation-iteration-count: infinite; */
+    /* animation-direction: normal; */
     
 }
+#container{
+    width : 1100px;
+    height: 200px;
+    display: flex;
+    /* flex-direction: row-reverse; */
+    flex-wrap: wrap;
+    margin-left: 7ch;
+    justify-content: center;
+    align-items: center;
+
+}
+#gap{
+    width:1cm;
+    border-color:white;
+}
+ /* #box1, #box2, #box3, #box4 {
+    border-radius: 10%;
+    margin: 0.1cm;
+    background-color: red;
+    animation: redBlink 0.25s infinite;
+}
+
+#box5, #box6, #box7, #box8 {
+    border-radius: 10%;
+    margin: 0.1cm;
+    background-color: blue;
+    animation: blueBlink 0.25s infinite;
+} 
+
+/* RED light */
+/* @keyframes redBlink {
+    0%, 100% {
+        background-color: red;
+        opacity: 1;
+    }
+    50% {
+        opacity: 0;
+    }
+} */
+/* BLUE light */
+/* @keyframes blueBlink {
+    0%, 100% {
+        background-color: blue;
+        opacity: 0;
+    }
+    50% {
+        opacity: 1;
+    }
+}  */
+/* 
+#box1{
+    background-color: aqua;
+    /* transform: rotate(90deg); */
+    /* transform: scale(2,1); */
+    /* transform: translate(20px,30px); */
+/* } */
+/* #box2{ */
+    /* background-color: red; */
+    /* transform: rotate(10deg); */
+    /* transform: translate(20px); */
+/* } */
+/* #box3{ */
+    /* background-color: green; */
+    /* transform: rotate(180deg); */
+/* } */
+/* #box4{ */
+    /* background-color: yellow; */
+    /* transform: rotate(100deg);
+    rotate: y 180deg;
+    transform: skew(20deg); */
+/* } */ 
+
+
+@media(min-width:300px)and (max-width:400px){
+    div{
+        background-color: blueviolet;
+        color: peru;
+    }
+}
+
+
