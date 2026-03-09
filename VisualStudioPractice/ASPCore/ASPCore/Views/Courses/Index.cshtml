@@ -1,0 +1,9 @@
+﻿<h2>List Courses</h2>
+
+@if (ViewBag.Courses != null)
+{
+    foreach (string course in ViewBag.Courses)
+    {
+        <p>@course</p>
+    }
+}

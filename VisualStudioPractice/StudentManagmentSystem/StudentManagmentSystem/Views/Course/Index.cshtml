@@ -1,0 +1,46 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@model IEnumerable<StudentManagmentSystem.Models.Course>
+
+<h2>Course List</h2>
+
+<p>
+    @Html.ActionLink("Create Course", "Create")
+</p>
+
+<table border="1">
+
+    <tr>
+        <th>ID</th>
+        <th>Course</th>
+        <th>Duration</th>
+        <th>Department</th>
+        <th>Actions</th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+
+        <tr>
+
+            <td>@item.CourseId</td>
+            <td>@item.CourseName</td>
+            <td>@item.Duration</td>
+            <td>@item.Department.DepartmentName</td>
+
+            <td>
+
+                @Html.ActionLink("Details", "Details", new { id = item.CourseId }) |
+                @Html.ActionLink("Edit", "Edit", new { id = item.CourseId }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.CourseId })
+
+            </td>
+
+        </tr>
+
+    }
+
+</table>

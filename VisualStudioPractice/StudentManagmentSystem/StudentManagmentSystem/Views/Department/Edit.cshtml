@@ -1,0 +1,27 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@model StudentManagmentSystem.Models.Department
+
+<h2>Edit Department</h2>
+
+@using (Html.BeginForm())
+{
+
+    @Html.HiddenFor(m => m.DepartmentId)
+
+    <p>
+        @Html.LabelFor(m => m.DepartmentName)
+        @Html.TextBoxFor(m => m.DepartmentName)
+    </p>
+
+    <p>
+        @Html.LabelFor(m => m.Location)
+        @Html.TextBoxFor(m => m.Location)
+    </p>
+
+    <input type="submit" value="Update" />
+
+}

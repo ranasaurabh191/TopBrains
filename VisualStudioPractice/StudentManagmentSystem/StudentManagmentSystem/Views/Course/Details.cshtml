@@ -1,0 +1,24 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@model StudentManagmentSystem.Models.Course
+
+<h2>Course Details</h2>
+
+<p>
+    <strong>Course :</strong> @Model.CourseName
+</p>
+
+<p>
+    <strong>Duration :</strong> @Model.Duration
+</p>
+
+<p>
+    <strong>Department :</strong> @Model.Department.DepartmentName
+</p>
+
+<p>
+    @Html.ActionLink("Back", "Index")
+</p>
