@@ -88,7 +88,7 @@ namespace StudentManagement.Controllers
         }
 
         // DELETE (POST)
-        [HttpPost]
+        [HttpPost, ActionName("Delete")]
         public IActionResult DeleteConfirmed(int id)
         {
             var course = _context.Courses.Find(id);

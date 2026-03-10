@@ -1,30 +1,42 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
-
-@Model IEnumerable<Student>
+﻿@model IEnumerable<StudentManagmentSystem.Models.Student>
 
 <h2>Student List</h2>
+
+<p>
+    @Html.ActionLink("Create New Student", "Create")
+</p>
+
 <table border="1">
+
     <tr>
         <th>Name</th>
         <th>Email</th>
         <th>Department</th>
         <th>Actions</th>
     </tr>
-        @foreach(var student in Model)
+
+    @if (!Model.Any())
+    {
+        <tr>
+            <td colspan="4">No students found</td>
+        </tr>
+    }
+    else
+    {
+        foreach (var student in Model)
         {
             <tr>
                 <td>@student.Name</td>
                 <td>@student.Email</td>
-                <td>@student.Department.DepartmentName</td>
+                <td>@student.Department?.DepartmentName</td>
+
                 <td>
-                    @Html.ActionLink("Edit","Edit",new {id = student.StudentId}) |
+                    @Html.ActionLink("Edit", "Edit", new { id = student.StudentId }) |
                     @Html.ActionLink("Details", "Details", new { id = student.StudentId }) |
                     @Html.ActionLink("Delete", "Delete", new { id = student.StudentId })
                 </td>
             </tr>
         }
-    </table>
+    }
+
+</table>

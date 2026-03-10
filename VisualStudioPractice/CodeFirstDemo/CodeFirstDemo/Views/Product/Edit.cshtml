@@ -1,0 +1,30 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@model CodeFirstDemo.Models.Product
+
+<h2>Edit Product</h2>
+
+<form asp-action="Edit">
+
+    <input type="hidden" asp-for="ProductId" />
+
+    <label>Name</label>
+    <input asp-for="Name" class="form-control" />
+
+    <label>Price</label>
+    <input asp-for="Price" class="form-control" />
+
+    <label>Quantity</label>
+    <input asp-for="Quantity" class="form-control" />
+
+    <label>Description</label>
+    <input asp-for="Description" class="form-control" />
+
+    <br>
+
+    <button class="btn btn-primary">Update</button>
+
+</form>

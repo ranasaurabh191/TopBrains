@@ -1,6 +1,6 @@
 using CodeFirstDemo.Context;
 using Microsoft.EntityFrameworkCore;
-
+using CodeFirstDemo.Repositories;
 namespace CodeFirstDemo
 {
     public class Program
@@ -15,6 +15,7 @@ namespace CodeFirstDemo
             {
                 options.UseSqlServer(builder.Configuration.GetConnectionString("EmployeeContext"));
             });
+            builder.Services.AddScoped<IProductRepository, ProductRepository>();
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.

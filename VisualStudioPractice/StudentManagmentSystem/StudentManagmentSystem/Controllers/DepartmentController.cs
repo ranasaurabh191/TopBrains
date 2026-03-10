@@ -29,6 +29,7 @@ namespace StudentManagement.Controllers
 
         // CREATE DEPARTMENT (POST)
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Create(Department department)
         {
             if (ModelState.IsValid)

@@ -1,12 +1,7 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿@model StudentManagmentSystem.Models.Student
 
-@model Student
+<h2>Edit Student</h2>
 
-<h2> Edit Student</h2>
 @using (Html.BeginForm())
 {
 
@@ -22,6 +17,29 @@
         @Html.TextBoxFor(m => m.Email)
     </p>
 
-    <input type="submit" value="Update" />
+    <p>
+        @Html.LabelFor(m => m.Password)
+        @Html.PasswordFor(m => m.Password)
+    </p>
+
+    <p>
+        @Html.LabelFor(m => m.Age)
+        @Html.TextBoxFor(m => m.Age)
+    </p>
+
+    <p>
+        Gender
+        @Html.RadioButtonFor(m => m.Gender, "Male") Male
+        @Html.RadioButtonFor(m => m.Gender, "Female") Female
+    </p>
+
+    <p>
+        Department
+        @Html.DropDownListFor(m => m.DepartmentId,
+        new SelectList(ViewBag.Departments, "DepartmentId", "DepartmentName"),
+                "-- Select Department --")
+</p>
+
+<input type="submit" value="Update" />
 
 }

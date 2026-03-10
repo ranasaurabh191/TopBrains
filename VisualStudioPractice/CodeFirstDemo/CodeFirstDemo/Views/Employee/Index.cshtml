@@ -1,0 +1,60 @@
+﻿@model IEnumerable<CodeFirstDemo.Models.Employee>
+
+<h2 class="mb-3">Employees</h2>
+
+<a asp-action="Create" class="btn btn-success mb-3">Add Employee</a>
+
+<div class="card">
+
+    <div class="card-body">
+
+        <table class="table table-striped">
+
+            <thead>
+
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Address</th>
+                    <th>Salary</th>
+                    <th>Email</th>
+                    <th>Action</th>
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                @foreach (var item in Model)
+                {
+                    <tr>
+
+                        <td>@item.EmpID</td>
+                        <td>@item.EmpName</td>
+                        <td>@item.Address</td>
+                        <td>@item.Salary</td>
+                        <td>@item.Email</td>
+
+                        <td>
+
+                            <a asp-action="Edit" asp-route-id="@item.EmpID"
+                               class="btn btn-primary btn-sm">Edit</a>
+
+                            <a asp-action="Delete" asp-route-id="@item.EmpID"
+                               class="btn btn-danger btn-sm">Delete</a>
+
+                            <a asp-action="Details" asp-route-id="@item.EmpID"
+                               class="btn btn-info btn-sm">Details</a>
+
+                        </td>
+
+                    </tr>
+                }
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
