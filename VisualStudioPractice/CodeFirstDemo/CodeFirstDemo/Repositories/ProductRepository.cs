@@ -20,7 +20,7 @@ namespace CodeFirstDemo.Repositories
 
         public async Task<Product?> GetById(int id)
         {
-            return await _context.Products.FindAsync(id);
+            return await _context.Products.FirstOrDefaultAsync(p => p.ProductId == id);
         }
 
         public async Task Add(Product product)
