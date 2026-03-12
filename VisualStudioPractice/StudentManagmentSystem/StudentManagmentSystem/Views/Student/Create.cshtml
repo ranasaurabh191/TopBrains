@@ -1,49 +1,68 @@
 ﻿@model StudentManagmentSystem.Models.Student
 
-<h2>Create Student</h2>
+<div class="card">
+    <div class="card-header d-flex align-items-center justify-content-between">
+        <h3 class="mb-0 text-white">Create Student</h3>
+    </div>
+    <div class="card-body">
+        <form asp-action="Create" method="post" class="row g-3">
+            @Html.AntiForgeryToken()
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-@using (Html.BeginForm())
-{
-    @Html.AntiForgeryToken()
+            <div class="col-md-6">
+                <label asp-for="Name" class="form-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
 
-    <p>
-        @Html.LabelFor(m => m.Name)
-        @Html.TextBoxFor(m => m.Name)
-        @Html.ValidationMessageFor(m => m.Name)
-    </p>
+            <div class="col-md-6">
+                <label asp-for="Email" class="form-label"></label>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
 
-    <p>
-        @Html.LabelFor(m => m.Email)
-        @Html.TextBoxFor(m => m.Email)
-        @Html.ValidationMessageFor(m => m.Email)
-    </p>
+            <div class="col-md-6">
+                <label asp-for="Password" class="form-label"></label>
+                <input asp-for="Password" type="password" class="form-control" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
 
-    <p>
-        @Html.LabelFor(m => m.Password)
-        @Html.PasswordFor(m => m.Password)
-        @Html.ValidationMessageFor(m => m.Password)
-    </p>
+            <div class="col-md-3">
+                <label asp-for="Age" class="form-label"></label>
+                <input asp-for="Age" type="number" class="form-control" />
+                <span asp-validation-for="Age" class="text-danger"></span>
+            </div>
 
-    <p>
-        @Html.LabelFor(m => m.Age)
-        @Html.TextBoxFor(m => m.Age)
-        @Html.ValidationMessageFor(m => m.Age)
-    </p>
+            <div class="col-md-3">
+                <label class="form-label d-block">Gender</label>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" asp-for="Gender" value="Male" />
+                    <label class="form-check-label">Male</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" asp-for="Gender" value="Female" />
+                    <label class="form-check-label">Female</label>
+                </div>
+                <span asp-validation-for="Gender" class="text-danger d-block"></span>
+            </div>
 
-    <p>
-        Gender
-        @Html.RadioButtonFor(m => m.Gender, "Male") Male
-        @Html.RadioButtonFor(m => m.Gender, "Female") Female
-    </p>
+            <div class="col-md-6">
+                <label asp-for="DepartmentId" class="form-label">Department</label>
+                <select asp-for="DepartmentId" class="form-select"
+                        asp-items="@(new SelectList(ViewBag.Departments, "DepartmentId", "DepartmentName"))">
+                    <option value="">-- Select Department --</option>
+                </select>
+                <span asp-validation-for="DepartmentId" class="text-danger"></span>
+            </div>
 
-    <p>
-        Department
-        @Html.DropDownListFor(m => m.DepartmentId,
-        new SelectList(ViewBag.Departments, "DepartmentId", "DepartmentName"),
-                "-- Select Department --")
-</p>
+            <div class="col-12 text-end">
+                <button type="submit" class="btn btn-primary btn-modern">Save</button>
+                <a asp-action="Index" class="btn btn-secondary btn-modern ms-2">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
 
-<p>
-    <input type="submit" value="Save" />
-</p>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
 }

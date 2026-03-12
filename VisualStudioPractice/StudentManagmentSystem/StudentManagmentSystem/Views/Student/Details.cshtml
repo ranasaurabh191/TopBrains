@@ -1,32 +1,23 @@
 ﻿@model StudentManagmentSystem.Models.Student
 
-<h2>Student Details</h2>
-
-<p>
-    <strong>ID :</strong> @Model.StudentId
-</p>
-
-<p>
-    <strong>Name :</strong> @Model.Name
-</p>
-
-<p>
-    <strong>Email :</strong> @Model.Email
-</p>
-
-<p>
-    <strong>Age :</strong> @Model.Age
-</p>
-
-<p>
-    <strong>Gender :</strong> @Model.Gender
-</p>
-
-<p>
-    <strong>Department :</strong> @Model.Department?.DepartmentName
-</p>
-
-<p>
-    <a asp-action="Edit" asp-route-id="@Model.StudentId">Edit</a> |
-    <a asp-action="Index">Back to List</a>
-</p>
+<div class="card">
+    <div class="card-header d-flex align-items-center justify-content-between">
+        <h3 class="mb-0 text-white">Student Details</h3>
+        <div>
+            <a asp-action="Edit" asp-route-id="@Model.StudentId" class="btn btn-sm btn-outline-primary me-1">Edit</a>
+            <a asp-action="Index" class="btn btn-sm btn-secondary">Back</a>
+        </div>
+    </div>
+    <div class="card-body row">
+        <div class="col-md-6">
+            <p><strong>ID:</strong> @Model.StudentId</p>
+            <p><strong>Name:</strong> @Model.Name</p>
+            <p><strong>Email:</strong> <span class="text-muted">@Model.Email</span></p>
+        </div>
+        <div class="col-md-6">
+            <p><strong>Age:</strong> @Model.Age</p>
+            <p><strong>Gender:</strong> @Model.Gender</p>
+            <p><strong>Department:</strong> @Model.Department?.DepartmentName ?? "-"</p>
+        </div>
+    </div>
+</div>

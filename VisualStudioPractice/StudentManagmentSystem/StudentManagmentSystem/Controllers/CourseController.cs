@@ -1,57 +1,62 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using StudentManagmentSystem.Data;
 using StudentManagmentSystem.Models;
+using StudentManagmentSystem.UnitOfWork;
 
-namespace StudentManagement.Controllers
+namespace StudentManagmentSystem.Controllers
 {
     public class CourseController : Controller
     {
-        private readonly StudentDbContext _context;
+        private readonly IUnitOfWork _unit;
 
-        public CourseController(StudentDbContext context)
+        public CourseController(IUnitOfWork unit)
         {
-            _context = context;
+            _unit = unit;
         }
 
-        // DISPLAY COURSES
+        // LIST
         public IActionResult Index()
         {
-            var courses = _context.Courses
-                        .Include(c => c.Department)
-                        .ToList();
+            var courses = _unit.Courses.GetAll().ToList();
+
+            courses = courses
+                .Select(c =>
+                {
+                    c.Department = _unit.Departments.GetById(c.DepartmentId);
+                    return c;
+                })
+                .ToList();
 
             return View(courses);
         }
 
-        // CREATE COURSE (GET)
+        // CREATE GET
         public IActionResult Create()
         {
-            ViewBag.Departments = _context.Departments.ToList();
+            ViewBag.Departments = _unit.Departments.GetAll();
             return View();
         }
 
-        // CREATE COURSE (POST)
+        // CREATE POST
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Create(Course course)
         {
             if (ModelState.IsValid)
             {
-                _context.Courses.Add(course);
-                _context.SaveChanges();
+                _unit.Courses.Insert(course);
+                _unit.Save();
 
                 return RedirectToAction("Index");
             }
 
+            ViewBag.Departments = _unit.Departments.GetAll();
             return View(course);
         }
 
         // DETAILS
         public IActionResult Details(int id)
         {
-            var course = _context.Courses
-                        .Include(c => c.Department)
-                        .FirstOrDefault(c => c.CourseId == id);
+            var course = _unit.Courses.GetById(id);
 
             if (course == null)
                 return NotFound();
@@ -59,61 +64,55 @@ namespace StudentManagement.Controllers
             return View(course);
         }
 
-        // EDIT (GET)
+        // EDIT GET
         public IActionResult Edit(int id)
         {
-            var course = _context.Courses.Find(id);
+            var course = _unit.Courses.GetById(id);
 
-            ViewBag.Departments = _context.Departments.ToList();
+            if (course == null)
+                return NotFound();
 
+            ViewBag.Departments = _unit.Departments.GetAll();
             return View(course);
         }
 
-        // EDIT (POST)
+        // EDIT POST
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Edit(Course course)
         {
-            _context.Courses.Update(course);
-            _context.SaveChanges();
+            if (ModelState.IsValid)
+            {
+                _unit.Courses.Update(course);
+                _unit.Save();
 
-            return RedirectToAction("Index");
+                return RedirectToAction("Index");
+            }
+
+            ViewBag.Departments = _unit.Departments.GetAll();
+            return View(course);
         }
 
-        // DELETE (GET)
+        // DELETE GET
         public IActionResult Delete(int id)
         {
-            var course = _context.Courses.Find(id);
+            var course = _unit.Courses.GetById(id);
+
+            if (course == null)
+                return NotFound();
 
             return View(course);
         }
 
-        // DELETE (POST)
+        // DELETE POST
         [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
         public IActionResult DeleteConfirmed(int id)
         {
-            var course = _context.Courses.Find(id);
-            if (course == null)
-            {
-                return NotFound();
-            }
-            _context.Courses.Remove(course);
-            _context.SaveChanges();
+            _unit.Courses.Delete(id);
+            _unit.Save();
 
             return RedirectToAction("Index");
-        }
-
-        // JSON RESULT
-        public JsonResult GetCoursesJson()
-        {
-            var courses = _context.Courses.ToList();
-
-            return Json(courses);
-        }
-
-        // CONTENT RESULT
-        public ContentResult Message()
-        {
-            return Content("Course Created Successfully");
         }
     }
 }

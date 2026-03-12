@@ -15,16 +15,27 @@ namespace StudentManagmentSystem.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
+
             modelBuilder.Entity<Student>()
                 .HasOne(s => s.Department)
                 .WithMany(d => d.Students)
-                .HasForeignKey(s => s.DepartmentId);
+                .HasForeignKey(s => s.DepartmentId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Student>()
+                .HasOne(s => s.Course)
+                .WithMany()
+                .HasForeignKey(s => s.CourseId)
+                .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Course>()
                 .HasOne(c => c.Department)
                 .WithMany(d => d.Courses)
-                .HasForeignKey(c => c.DepartmentId);
+                .HasForeignKey(c => c.DepartmentId)
+                .OnDelete(DeleteBehavior.Restrict);
         }
-
     }
 }
+
+

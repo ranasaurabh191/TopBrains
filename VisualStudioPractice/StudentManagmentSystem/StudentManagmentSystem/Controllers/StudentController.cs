@@ -1,170 +1,156 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using StudentManagmentSystem.Data;
 using StudentManagmentSystem.Models;
-using System.Reflection.Metadata.Ecma335;
+using StudentManagmentSystem.UnitOfWork;
 
 namespace StudentManagmentSystem.Controllers
 {
     public class StudentController : Controller
     {
-        private readonly StudentDbContext _context;
+        private readonly IUnitOfWork _unit;
 
-        public StudentController(StudentDbContext context)
+        public StudentController(IUnitOfWork unit)
         {
-            _context = context;
+            _unit = unit;
         }
 
+        // LIST STUDENTS
         public IActionResult Index()
         {
-            var students = _context.Students
-                            .Include(s => s.Department)
-                            .ToList();
-            
+            var students = _unit.Students
+                .Find(s => true)
+                .ToList();
+
+            students = students
+                .Select(s =>
+                {
+                    s.Department = _unit.Departments.GetById(s.DepartmentId);
+                    return s;
+                })
+                .ToList();
+
             return View(students);
         }
-        
+
+        // CREATE GET
         public IActionResult Create()
         {
-            ViewBag.Departments = _context.Departments.ToList();
+            ViewBag.Departments = _unit.Departments.GetAll();
+            ViewBag.Courses = _unit.Courses.GetAll();
+
             return View();
         }
 
+        // CREATE POST
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Create(Student student)
         {
             if (ModelState.IsValid)
             {
-                _context.Students.Add(student);
-                _context.SaveChanges();
+                _unit.Students.Insert(student);
+                _unit.Save();
 
                 return RedirectToAction("Index");
             }
-            return View(student);
-        }
 
-        public IActionResult Edit(int id)
-        {
-            var student = _context.Students
-                          .Where(s=>s.StudentId==id)
-                          .FirstOrDefault();
-            return View(student);
-        }
-
-        [HttpPost]
-        public IActionResult Edit(Student student)
-        {
-            _context.Students.Update(student);
-            _context.SaveChanges();
-
-            return RedirectToAction("Index");
-        }
-
-        public IActionResult Delete(int id)
-        {
-            var student = _context.Students
-                            .FirstOrDefault(s => s.StudentId == id);
+            ViewBag.Departments = _unit.Departments.GetAll();
+            ViewBag.Courses = _unit.Courses.GetAll();
 
             return View(student);
         }
 
-        [HttpPost, ActionName("Delete")]
-        public IActionResult DeleteConfirmed(int id)
-        {
-            var student = _context.Students.Find(id);
-
-            if (student == null)
-            {
-                return NotFound();
-            }
-            _context.Students.Remove(student);
-            _context.SaveChanges();
-
-            return RedirectToAction("Index");
-        }
-
+        // DETAILS
         public IActionResult Details(int id)
         {
-            var student = _context.Students
-                .Include(s => s.Department)
-                .FirstOrDefault(s => s.StudentId == id);
+            var student = _unit.Students.GetById(id);
+
+            if (student == null)
+                return NotFound();
 
             return View(student);
         }
 
-        public IActionResult Search(string name)
+        // EDIT GET
+        public IActionResult Edit(int id)
         {
-            var students = _context.Students
-                            .Where(s => s.Name.Contains(name))
-                            .ToList();
+            var student = _unit.Students.GetById(id);
+
+            if (student == null)
+                return NotFound();
+
+            ViewBag.Departments = _unit.Departments.GetAll();
+            ViewBag.Courses = _unit.Courses.GetAll();
+
+            return View(student);
+        }
+
+        // EDIT POST
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Edit(Student student)
+        {
+            if (ModelState.IsValid)
+            {
+                _unit.Students.Update(student);
+                _unit.Save();
+
+                return RedirectToAction("Index");
+            }
+
+            ViewBag.Departments = _unit.Departments.GetAll();
+            ViewBag.Courses = _unit.Courses.GetAll();
+
+            return View(student);
+        }
+
+        // DELETE GET
+        public IActionResult Delete(int id)
+        {
+            var student = _unit.Students.GetById(id);
+
+            if (student == null)
+                return NotFound();
+
+            return View(student);
+        }
+
+        // DELETE POST
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public IActionResult DeleteConfirmed(int id)
+        {
+            _unit.Students.Delete(id);
+            _unit.Save();
+
+            return RedirectToAction("Index");
+        }
+
+        // SEARCH STUDENT
+        public IActionResult Search(string? name)
+        {
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                return View("Index", _unit.Students.GetAll());
+            }
+
+            var students = _unit.Students
+                .Find(s => s.Name != null && s.Name.Contains(name));
 
             return View("Index", students);
         }
-        public IActionResult StudentsOlderThan20()
-        {
-            var students = _context.Students
-                        .Where(s => s.Age > 20)
-                        .Include(s => s.Department)
-                        .ToList();
 
+        // FILTER BY DEPARTMENT
+        public IActionResult ByDepartment(int id)
+        {
+            var students = _unit.Students.Find(s => s.DepartmentId == id);
             return View("Index", students);
         }
-        public IActionResult OrderByName()
-        {
-            var students = _context.Students
-                        .OrderBy(s => s.Name)
-                        .Include(s => s.Department)
-                        .ToList();
 
+        // FILTER BY COURSE
+        public IActionResult ByCourse(int id)
+        {
+            var students = _unit.Students.Find(s => s.CourseId == id);
             return View("Index", students);
-        }
-        public IActionResult CountStudents()
-        {
-            var totalStudents = _context.Students.Count();
-
-            return Content("Total Students: " + totalStudents);
-        }
-
-        public IActionResult GroupByDepartment()
-        {
-            var result = _context.Students
-                        .GroupBy(s => s.DepartmentId)
-                        .Select(g => new
-                        {
-                            Department = g.Key,
-                            TotalStudents = g.Count()
-                        })
-                        .ToList();
-
-            return Json(result);
-        }
-
-        public IActionResult TestStatus()
-        {
-            return Ok("Request Successful");
-        }
-        public IActionResult TestBadRequest()
-        {
-            return BadRequest("Bad Request Example");
-        }
-        public IActionResult TestServerError()
-        {
-            return StatusCode(500);
-        }
-        public JsonResult JsonData()
-        {
-            var students = _context.Students.ToList();
-
-            return Json(students);
-        }
-        public ContentResult Message()
-        {
-            return Content("Student Registered Successfully");
-        }
-        public RedirectResult RedirectToDepartment()
-        {
-            return Redirect("/Department/Index");
         }
     }
 }

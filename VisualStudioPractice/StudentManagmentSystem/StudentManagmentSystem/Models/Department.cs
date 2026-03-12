@@ -1,13 +1,20 @@
-﻿namespace StudentManagmentSystem.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace StudentManagmentSystem.Models
 {
     public class Department
     {
         public int DepartmentId { get; set; }
 
-        public string DepartmentName { get; set; } = string.Empty;
+        [Required(ErrorMessage = "Department name is required")]
+        [StringLength(50)]
+        public string DepartmentName { get; set; }
 
-        public string Location { get; set; } = string.Empty;
-        public ICollection<Student> Students { get; set; } = new List<Student>();
-        public ICollection<Course> Courses { get; set; } = new List<Course>();
+        [Required(ErrorMessage = "Location is required")]
+        public string Location { get; set; }
+
+        public ICollection<Student>? Students { get; set; }
+
+        public ICollection<Course>? Courses { get; set; }
     }
 }

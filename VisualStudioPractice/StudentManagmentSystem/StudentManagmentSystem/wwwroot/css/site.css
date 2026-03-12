@@ -1,31 +1,219 @@
+/* ========================================
+   Student Management System - Enhanced site.css
+   Modern dashboard styles, dark mode, responsive components
+   Compatible with Bootstrap 5.3+ 
+======================================== */
+
+/* Core responsive font sizing with clamp() */
 html {
-  font-size: 14px;
+  font-size: clamp(14px, 1.5vw + 0.5rem, 18px);
 }
 
-@media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+@media (min-width: 576px) { html { font-size: clamp(15px, 1.4vw + 0.6rem, 17px); } }
+@media (min-width: 768px) { html { font-size: clamp(16px, 1.3vw + 0.7rem, 18px); } }
+@media (min-width: 1200px) { html { font-size: clamp(17px, 1.2vw + 0.8rem, 19px); } }
+
+/* CSS Custom Properties for Dark Mode - Bootstrap 5 ready [web:45] */
+:root {
+  --bg-primary: #f8f9fa;
+  --bg-secondary: #ffffff;
+  --bg-card: #ffffff;
+  --text-primary: #212529;
+  --text-secondary: #6c757d;
+  --border-color: #dee2e6;
+  --shadow-sm: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+  --shadow-lg: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+  --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
 }
 
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
-}
-
-html {
-  position: relative;
-  min-height: 100%;
+body.dark-mode {
+  --bg-primary: #121212;
+  --bg-secondary: #1e1e1e;
+  --bg-card: #2d2d2d;
+  --text-primary: #e0e0e0;
+  --text-secondary: #b0b0b0;
+  --border-color: #404040;
+  --shadow-sm: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.5);
+  --shadow-lg: 0 1rem 3rem rgba(0, 0, 0, 0.5);
 }
 
 body {
-  margin-bottom: 60px;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  transition: background-color 0.3s ease, color 0.3s ease;
+  font-feature-settings: "cv02", "cv03", "cv11";
 }
 
-.form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
-  color: var(--bs-secondary-color);
+/* Sticky Footer Flexbox */
+html { height: 100%; }
+body { 
+  display: flex; 
+  flex-direction: column; 
+  min-height: 100vh; 
+  margin: 0; 
+}
+
+.main-container { flex: 1; }
+
+/* Enhanced Focus Rings - Accessibility First [previous context] */
+.btn:focus-visible,
+.btn:active:focus-visible,
+.btn-link.nav-link:focus-visible,
+.form-control:focus-visible,
+.form-check-input:focus-visible {
+  outline: none;
+  box-shadow: 
+    0 0 0 0.2rem rgba(13, 110, 253, 0.25),
+    0 0 0 0.4rem #0d6efd;
+  transition: box-shadow 0.2s ease;
+}
+
+@media (prefers-contrast: high) {
+  .btn:focus-visible, .form-control:focus-visible {
+    box-shadow: 0 0 0 0.25rem #ffffff, 0 0 0 0.5rem #0d6efd !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}
+
+/* Form Floating Improvements */
+.form-floating > .form-control-plaintext::placeholder,
+.form-floating > .form-control::placeholder {
+  color: rgba(var(--bs-secondary-rgb), 0.65);
   text-align: end;
+  font-style: italic;
+  transition: all 0.15s ease;
 }
 
-.form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
+.form-floating > .form-control:focus::placeholder {
   text-align: start;
+  color: rgba(var(--bs-secondary-rgb), 0.5);
+}
+
+/* Dashboard Cards - Modern Admin Style [web:42][web:43] */
+.card {
+  border: none;
+  border-radius: 16px;
+  background: var(--bg-card);
+  box-shadow: var(--shadow-lg);
+  transition: all 0.3s ease;
+  overflow: hidden;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 1rem 3rem rgba(0,0,0,0.175) !important;
+}
+
+.card-header {
+  background: var(--gradient-primary);
+  color: white;
+  border: none;
+  font-weight: 600;
+  padding: 1.25rem;
+}
+
+.card-stats {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.5rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.card-stats i { font-size: 2.5rem; opacity: 0.8; }
+
+.card-body { padding: 1.75rem; }
+
+/* Responsive Tables for Student/Course Lists [web:34] */
+.table {
+  background: var(--bg-card);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  margin-bottom: 2rem;
+}
+
+.table thead th {
+  background: var(--gradient-primary);
+  color: white;
+  border: none;
+  font-weight: 600;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.table-hover tbody tr:hover {
+  background-color: rgba(13, 110, 253, 0.05);
+}
+
+.table tbody td { border-color: var(--border-color); }
+
+/* Responsive Table Mobile */
+@media (max-width: 768px) {
+  .table-responsive { 
+    border-radius: 12px; 
+    box-shadow: var(--shadow-sm);
+  }
+  .table { font-size: 0.875rem; }
+}
+
+/* Buttons & Forms */
+.btn-modern {
+  border-radius: 12px;
+  font-weight: 500;
+  padding: 0.75rem 1.5rem;
+  transition: all 0.3s ease;
+  box-shadow: var(--shadow-sm);
+}
+
+.btn-modern:hover { transform: translateY(-1px); box-shadow: var(--shadow-lg); }
+
+.btn-outline-primary { border-color: #0d6efd; }
+
+/* Alerts & Badges */
+.alert {
+  border: none;
+  border-radius: 12px;
+  box-shadow: var(--shadow-sm);
+}
+
+.badge {
+  padding: 0.5em 0.75em;
+  border-radius: 20px;
+  font-weight: 500;
+}
+
+/* Pagination */
+.pagination .page-link {
+  border-radius: 8px;
+  margin: 0 2px;
+  border: none;
+  color: var(--text-primary);
+}
+
+.pagination .page-item.active .page-link {
+  background: var(--gradient-primary);
+  border-color: transparent;
+}
+
+/* Loading Spinner */
+.spinner-border-sm-custom {
+  width: 1rem;
+  height: 1rem;
+}
+
+/* Utilities */
+.text-shadow { text-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+.gap-3 { gap: 1rem; }
+.shadow-hover:hover { box-shadow: var(--shadow-lg) !important; }
+
+/* Print Styles */
+@media print {
+  body { background: white !important; color: black !important; }
+  .navbar, .footer { display: none; }
+  .card { box-shadow: none; }
 }

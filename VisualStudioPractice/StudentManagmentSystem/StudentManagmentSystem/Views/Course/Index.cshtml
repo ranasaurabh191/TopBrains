@@ -1,46 +1,59 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
-@model IEnumerable<StudentManagmentSystem.Models.Course>
+﻿@model IEnumerable<StudentManagmentSystem.Models.Course>
 
-<h2>Course List</h2>
-
-<p>
-    @Html.ActionLink("Create Course", "Create")
-</p>
-
-<table border="1">
-
-    <tr>
-        <th>ID</th>
-        <th>Course</th>
-        <th>Duration</th>
-        <th>Department</th>
-        <th>Actions</th>
-    </tr>
-
-    @foreach (var item in Model)
-    {
-
-        <tr>
-
-            <td>@item.CourseId</td>
-            <td>@item.CourseName</td>
-            <td>@item.Duration</td>
-            <td>@item.Department.DepartmentName</td>
-
-            <td>
-
-                @Html.ActionLink("Details", "Details", new { id = item.CourseId }) |
-                @Html.ActionLink("Edit", "Edit", new { id = item.CourseId }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.CourseId })
-
-            </td>
-
-        </tr>
-
-    }
-
-</table>
+<div class="card">
+    <div class="card-header d-flex align-items-center justify-content-between">
+        <h3 class="mb-0 text-white">Courses</h3>
+        <a asp-action="Create" class="btn btn-light btn-modern">Create Course</a>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle">
+                <thead>
+                    <tr>
+                        <th>Course ID</th>
+                        <th>Department ID</th>
+                        <th>Course</th>
+                        <th>Duration</th>
+                        <th>Department</th>
+                        <th class="text-end">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model != null && Model.Any())
+                    {
+                        foreach (var course in Model)
+                        {
+                            <tr>
+                                <td class="fw-semibold">@course.CourseId</td>
+                                <td>@course.DepartmentId</td>
+                                <td>@course.CourseName</td>
+                                <td>@course.Duration</td>
+                                <td>
+                                    @if (!string.IsNullOrEmpty(course.Department?.DepartmentName))
+                                    {
+                                        <span class="badge bg-secondary">@course.Department.DepartmentName</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="text-muted">-</span>
+                                    }
+                                </td>
+                                <td class="text-end">
+                                    <a asp-action="Edit" asp-route-id="@course.CourseId" class="btn btn-sm btn-outline-primary me-1">Edit</a>
+                                    <a asp-action="Details" asp-route-id="@course.CourseId" class="btn btn-sm btn-outline-secondary me-1">Details</a>
+                                    <a asp-action="Delete" asp-route-id="@course.CourseId" class="btn btn-sm btn-danger">Delete</a>
+                                </td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="6" class="text-center text-muted">No courses available.</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

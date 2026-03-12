@@ -1,42 +1,75 @@
 ﻿@model IEnumerable<StudentManagmentSystem.Models.Student>
 
-<h2>Student List</h2>
+<div class="card">
+    <div class="card-header d-flex align-items-center justify-content-between">
+        <h3 class="mb-0 text-white">Student List</h3>
+        <div class="d-flex gap-3">
+            <a asp-action="Create" class="btn btn-light btn-modern">Create New</a>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="row mb-3 align-items-center">
+            <div class="col-md-6">
+                <form asp-action="Search" method="get" class="mb-0">
+                    <div class="input-group">
+                        <input type="text" name="name" class="form-control" placeholder="Search student name">
+                        <button class="btn btn-primary btn-modern" type="submit">Search</button>
+                    </div>
+                </form>
+            </div>
+            <div class="col-md-6 text-md-end">
+                <!-- Placeholder for future filters or actions -->
+            </div>
+        </div>
 
-<p>
-    @Html.ActionLink("Create New Student", "Create")
-</p>
-
-<table border="1">
-
-    <tr>
-        <th>Name</th>
-        <th>Email</th>
-        <th>Department</th>
-        <th>Actions</th>
-    </tr>
-
-    @if (!Model.Any())
-    {
-        <tr>
-            <td colspan="4">No students found</td>
-        </tr>
-    }
-    else
-    {
-        foreach (var student in Model)
-        {
-            <tr>
-                <td>@student.Name</td>
-                <td>@student.Email</td>
-                <td>@student.Department?.DepartmentName</td>
-
-                <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = student.StudentId }) |
-                    @Html.ActionLink("Details", "Details", new { id = student.StudentId }) |
-                    @Html.ActionLink("Delete", "Delete", new { id = student.StudentId })
-                </td>
-            </tr>
-        }
-    }
-
-</table>
+        <div class="table-responsive">
+            <table class="table table-hover align-middle">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Department</th>
+                        <th>Age</th>
+                        <th>Gender</th>
+                        <th class="text-end">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model != null && Model.Any())
+                    {
+                        foreach (var student in Model)
+                        {
+                            <tr>
+                                <td class="fw-semibold">@student.Name</td>
+                                <td class="text-muted">@student.Email</td>
+                                <td>
+                                    @if (!string.IsNullOrEmpty(student.Department?.DepartmentName))
+                                    {
+                                        <span class="badge bg-secondary">@student.Department.DepartmentName</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="text-muted">-</span>
+                                    }
+                                </td>
+                                <td>@student.Age</td>
+                                <td>@student.Gender</td>
+                                <td class="text-end">
+                                    <a asp-action="Edit" asp-route-id="@student.StudentId" class="btn btn-sm btn-outline-primary me-1">Edit</a>
+                                    <a asp-action="Details" asp-route-id="@student.StudentId" class="btn btn-sm btn-outline-secondary me-1">Details</a>
+                                    <a asp-action="Delete" asp-route-id="@student.StudentId" class="btn btn-sm btn-danger">Delete</a>
+                                </td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="6" class="text-center text-muted">No students found.</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

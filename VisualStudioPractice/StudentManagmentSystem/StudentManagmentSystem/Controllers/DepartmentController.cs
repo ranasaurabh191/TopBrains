@@ -1,41 +1,40 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using StudentManagmentSystem.Data;
 using StudentManagmentSystem.Models;
+using StudentManagmentSystem.UnitOfWork;
 
-namespace StudentManagement.Controllers
+namespace StudentManagmentSystem.Controllers
 {
     public class DepartmentController : Controller
     {
-        private readonly StudentDbContext _context;
+        private readonly IUnitOfWork _unit;
 
-        public DepartmentController(StudentDbContext context)
+        public DepartmentController(IUnitOfWork unit)
         {
-            _context = context;
+            _unit = unit;
         }
 
-        // DISPLAY DEPARTMENTS
+        // LIST
         public IActionResult Index()
         {
-            var departments = _context.Departments.ToList();
+            var departments = _unit.Departments.GetAll();
             return View(departments);
         }
 
-        // CREATE DEPARTMENT (GET)
+        // CREATE GET
         public IActionResult Create()
         {
             return View();
         }
 
-        // CREATE DEPARTMENT (POST)
+        // CREATE POST
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Create(Department department)
         {
             if (ModelState.IsValid)
             {
-                _context.Departments.Add(department);
-                _context.SaveChanges();
+                _unit.Departments.Insert(department);
+                _unit.Save();
 
                 return RedirectToAction("Index");
             }
@@ -46,9 +45,7 @@ namespace StudentManagement.Controllers
         // DETAILS
         public IActionResult Details(int id)
         {
-            var department = _context.Departments
-                            .Include(d => d.Students)
-                            .FirstOrDefault(d => d.DepartmentId == id);
+            var department = _unit.Departments.GetById(id);
 
             if (department == null)
                 return NotFound();
@@ -56,10 +53,10 @@ namespace StudentManagement.Controllers
             return View(department);
         }
 
-        // EDIT (GET)
+        // EDIT GET
         public IActionResult Edit(int id)
         {
-            var department = _context.Departments.Find(id);
+            var department = _unit.Departments.GetById(id);
 
             if (department == null)
                 return NotFound();
@@ -67,20 +64,26 @@ namespace StudentManagement.Controllers
             return View(department);
         }
 
-        // EDIT (POST)
+        // EDIT POST
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Edit(Department department)
         {
-            _context.Departments.Update(department);
-            _context.SaveChanges();
+            if (ModelState.IsValid)
+            {
+                _unit.Departments.Update(department);
+                _unit.Save();
 
-            return RedirectToAction("Index");
+                return RedirectToAction("Index");
+            }
+
+            return View(department);
         }
 
-        // DELETE (GET)
+        // DELETE GET
         public IActionResult Delete(int id)
         {
-            var department = _context.Departments.Find(id);
+            var department = _unit.Departments.GetById(id);
 
             if (department == null)
                 return NotFound();
@@ -88,33 +91,15 @@ namespace StudentManagement.Controllers
             return View(department);
         }
 
-        // DELETE (POST)
-        [HttpPost]
+        // DELETE POST
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
         public IActionResult DeleteConfirmed(int id)
         {
-            var department = _context.Departments.Find(id);
-            if (department == null)
-            {
-                return NotFound();
-            }
-            _context.Departments.Remove(department);
-            _context.SaveChanges();
+            _unit.Departments.Delete(id);
+            _unit.Save();
 
             return RedirectToAction("Index");
-        }
-
-        // RETURN JSON DATA
-        public JsonResult GetDepartmentsJson()
-        {
-            var departments = _context.Departments.ToList();
-
-            return Json(departments);
-        }
-
-        // CONTENT RESULT
-        public ContentResult Message()
-        {
-            return Content("Department Created Successfully");
         }
     }
 }

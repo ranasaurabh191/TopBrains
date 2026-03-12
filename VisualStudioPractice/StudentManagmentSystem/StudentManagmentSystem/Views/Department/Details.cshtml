@@ -1,24 +1,16 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
-@model StudentManagmentSystem.Models.Department
+﻿@model StudentManagmentSystem.Models.Department
 
-<h2>Department Details</h2>
-
-<p>
-    <strong>Name :</strong> @Model.DepartmentName
-</p>
-
-<p>
-    <strong>Location :</strong> @Model.Location
-</p>
-
-<p>
-    <strong>Total Students :</strong> @Model.Students.Count()
-</p>
-
-<p>
-    @Html.ActionLink("Back", "Index")
-</p>
+<div class="card">
+    <div class="card-header d-flex align-items-center justify-content-between">
+        <h3 class="mb-0 text-white">Department Details</h3>
+        <div>
+            <a asp-action="Edit" asp-route-id="@Model.DepartmentId" class="btn btn-sm btn-outline-primary me-1">Edit</a>
+            <a asp-action="Index" class="btn btn-sm btn-secondary">Back</a>
+        </div>
+    </div>
+    <div class="card-body">
+        <p><strong>Department Name:</strong> @Model.DepartmentName</p>
+        <p><strong>Location:</strong> @Model.Location</p>
+        <p><strong>Total Students:</strong> @Model.Students?.Count() ?? 0</p>
+    </div>
+</div>
