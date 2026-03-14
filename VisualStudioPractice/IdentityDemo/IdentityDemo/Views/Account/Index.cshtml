@@ -1,0 +1,40 @@
+﻿
+
+<h2 style="align-content: center">Account</h2>
+
+@if (User?.Identity?.IsAuthenticated == true)
+{
+    <div class="auth-wrapper">
+        <div class="auth-card">
+            <h3>Welcome</h3>
+            @{
+                var fullName = ViewBag.FullName;
+            }
+            @if (!string.IsNullOrWhiteSpace(fullName))
+            {
+                <h3 class="gradient-name">@fullName</h3>
+            }
+            <p class="mb-3">Signed in as <strong>@User.Identity.Name</strong></p>
+
+            <div class="form-footer">
+                <form asp-action="Logout" asp-controller="Account" method="post">
+                    <button type="submit" class="btn btn-primary">Logout</button>
+                </form>
+                <a asp-controller="Home" asp-action="Index" class="text-muted">Back to Home</a>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <div class="auth-wrapper">
+        <div class="auth-card text-center">
+            <h3 class="mb-16">Welcome</h3>
+            <p class="text-muted mb-3">Sign in to access your account or create a new one.</p>
+            <div class="d-flex justify-content-center gap-2">
+                <a asp-action="Login" asp-controller="Account" class="btn btn-primary">Login</a>
+                <a asp-action="Register" asp-controller="Account" class="btn btn-outline-secondary">Register</a>
+            </div>
+        </div>
+    </div>
+}

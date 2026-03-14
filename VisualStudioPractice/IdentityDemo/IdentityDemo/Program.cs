@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
-namespace LoginPage
+namespace IdentityDemo
 {
     public class Program
     {
@@ -11,14 +11,12 @@ namespace LoginPage
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+            builder.Services.AddDbContext<Data.ApplicationDbContext>(options =>
+                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-            // Configure DbContext using connection string from appsettings
-            var connectionString = builder.Configuration.GetConnectionString("defaultConnection");
-            builder.Services.AddDbContext<Models.LoginDbContext>(options =>
-                options.UseSqlServer(connectionString));
-
-            // Register authentication repository
-            builder.Services.AddScoped<AuthLoginRepositories.IAuthLoginRepository, AuthLoginRepositories.AuthLogin>();
+            builder.Services.AddIdentity<Models.ApplicationUser, IdentityRole>()
+                .AddEntityFrameworkStores<Data.ApplicationDbContext>()
+                .AddDefaultTokenProviders();
 
             var app = builder.Build();
 
@@ -28,8 +26,9 @@ namespace LoginPage
                 app.UseExceptionHandler("/Home/Error");
             }
             app.UseRouting();
-
+            app.UseAuthentication();
             app.UseAuthorization();
+
 
             app.MapStaticAssets();
             app.MapControllerRoute(

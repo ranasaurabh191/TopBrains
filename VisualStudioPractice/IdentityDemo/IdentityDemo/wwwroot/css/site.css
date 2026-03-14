@@ -1,0 +1,127 @@
+/* Base and typography */
+:root{
+  --brand: #0d6efd;
+  --muted: #6c757d;
+  --bg-start: #f8fafc;
+  --bg-end: #ffffff;
+  --card-bg: #ffffff;
+}
+
+html {
+  font-size: 14px;
+  box-sizing: border-box;
+}
+.gradient-name {
+    font-size: 30px;
+    font-weight: 700;
+    text-align: center;
+    background: linear-gradient(90deg,#4facfe,#00f2fe);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 12px;
+}
+*, *:before, *:after { box-sizing: inherit; }
+
+@media (min-width: 768px) {
+  html { font-size: 16px; }
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  color: #212529;
+  background: linear-gradient(180deg, var(--bg-start) 0%, var(--bg-end) 100%);
+  margin: 0 0 80px 0;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Navbar tweaks */
+.navbar-brand {
+  font-weight: 600;
+  color: var(--brand) !important;
+}
+
+.nav-link { color: #333 !important; }
+.nav-link:hover { color: var(--brand) !important; }
+
+/* Container and layout */
+.container { max-width: 960px; }
+
+main[role="main"] { padding-top: 24px; }
+
+/* Card and form styles for auth pages */
+.auth-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 0;
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 420px;
+  background: var(--card-bg);
+  border: 1px solid #e9ecef;
+  border-radius: 10px;
+  padding: 28px;
+  box-shadow: 0 6px 20px rgba(16,24,40,0.08);
+}
+
+.auth-card h2 { margin-bottom: 16px; font-size: 1.25rem; }
+
+.form-label { font-weight: 600; font-size: .95rem; }
+
+.form-control {
+  border-radius: 8px;
+  border: 1px solid #ced4da;
+  padding: .625rem .75rem;
+  transition: box-shadow .15s ease, border-color .15s ease;
+}
+
+.form-control:focus {
+  border-color: var(--brand);
+  box-shadow: 0 0 0 0.15rem rgba(13,110,253,0.15);
+  outline: none;
+}
+
+.btn-primary {
+  background-color: var(--brand);
+  border-color: var(--brand);
+  padding: .55rem .9rem;
+  border-radius: 8px;
+  box-shadow: 0 6px 18px rgba(13,110,253,0.12);
+}
+
+.btn-primary:hover {
+  background-color: #0b5ed7;
+  border-color: #0b5ed7;
+}
+
+.form-footer { margin-top: 12px; display:flex; justify-content:space-between; align-items:center; }
+
+.text-muted { color: var(--muted) !important; }
+
+/* Validation */
+.text-danger { color: #dc3545 !important; }
+.validation-summary-errors { margin-bottom: 12px; }
+
+/* Footer */
+.footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  background: transparent;
+  padding: 12px 0;
+}
+
+/* Responsive forms on small devices */
+@media (max-width: 575.98px) {
+  .auth-card { margin: 0 16px; padding: 20px; }
+}
+
+/* Helper spacing */
+.mb-16 { margin-bottom: 16px !important; }
+.mt-8 { margin-top: 8px !important; }
+
+/* .form-floating behavior fallback */
+.form-floating > .form-control::placeholder { color: var(--muted); }
+
