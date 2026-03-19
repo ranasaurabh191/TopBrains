@@ -8,7 +8,7 @@ namespace StudentManagmentSystem.Models
 
         [Required(ErrorMessage = "Course name is required")]
         [StringLength(50)]
-        public string CourseName { get; set; }
+        public string? CourseName { get; set; }
 
         [Required(ErrorMessage = "Duration is required")]
         [Range(1, 24, ErrorMessage = "Duration must be between 1 and 24 months")]

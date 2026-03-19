@@ -1,0 +1,6 @@
+@CityMart.API_HostAddress = http://localhost:5111
+
+GET {{CityMart.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

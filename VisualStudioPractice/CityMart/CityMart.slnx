@@ -1,0 +1,7 @@
+<Solution>
+  <Project Path="CityMart.API/CityMart.API.csproj" />
+  <Project Path="CityMart.Application/CityMart.Application.csproj" />
+  <Project Path="CityMart.Domain/CityMart.Domain.csproj" />
+  <Project Path="CityMart.Infrastructure/CityMart.Infrastructure.csproj" />
+  <Project Path="CityMart.Persistence/CityMart.Persistence.csproj" />
+</Solution>
