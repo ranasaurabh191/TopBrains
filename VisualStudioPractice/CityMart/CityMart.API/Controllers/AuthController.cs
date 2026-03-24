@@ -34,18 +34,25 @@ namespace CityMart.API.Controllers
             });
         }
 
-        [Authorize]
         [HttpGet("test")]
         public IActionResult Test()
         {
+            if (!User.Identity?.IsAuthenticated ?? true)
+                return Unauthorized(new { message = "You must be logged in to access this." });
+
             return Ok("You are authorized");
         }
 
-        [Authorize(Roles = "Admin")]
         [HttpGet("testRole")]
         public IActionResult TestRole()
         {
-            return Ok("You are authorized");
+            if (!User.Identity?.IsAuthenticated ?? true)
+                return Unauthorized(new { message = "You must be logged in." });
+
+            if (!User.IsInRole("Admin"))
+                return StatusCode(403, new { message = "You need Admin role to access this." });
+
+            return Ok("You are authorized as admin");
         }
     }
 }

@@ -14,12 +14,17 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+      <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\CityMart.Application\CityMart.Application.csproj" />
     <ProjectReference Include="..\CityMart.Infrastructure\CityMart.Infrastructure.csproj" />
     <ProjectReference Include="..\CityMart.Persistence\CityMart.Persistence.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\" />
   </ItemGroup>
 
 </Project>
